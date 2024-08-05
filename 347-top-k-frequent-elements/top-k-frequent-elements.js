@@ -1,9 +1,3 @@
-
-/**
- * @param {number[]} nums
- * @param {number} k
- * @return {number[]}
- */
 var topKFrequent = function(nums, k) {
 
     const frequencyMap = new Map();
@@ -12,26 +6,18 @@ var topKFrequent = function(nums, k) {
     }
 
     const maxFreq = nums.length;
-    const bucket = Array.from({ length: maxFreq + 1 }, () => null);
+    const bucket = Array.from({ length: maxFreq + 1 }, () => []);
 
     for (const [num, freq] of frequencyMap.entries()) {
-        const newNode = new ListNode(num);
-        if (!bucket[freq]) {
-            bucket[freq] = newNode;
-        } else {
-            newNode.next = bucket[freq];
-            bucket[freq] = newNode;
-        }
+        bucket[freq].push(num);
     }
 
     const result = [];
     for (let i = maxFreq; i >= 0 && result.length < k; i--) {
-        let current = bucket[i];
-        while (current && result.length < k) {
-            result.push(current.val);
-            current = current.next;
+        if (bucket[i].length > 0) {
+            result.push(...bucket[i]);
         }
     }
 
-    return result;
+    return result.slice(0, k);
 };
