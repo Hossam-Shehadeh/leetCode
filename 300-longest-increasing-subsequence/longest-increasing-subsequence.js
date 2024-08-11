@@ -1,16 +1,24 @@
 var lengthOfLIS = function(nums) {
-    let n = nums.length;
-    if (n === 0) return 0;
+    let sub = [];
     
-    let dp = new Array(n).fill(1);
-    
-    for (let i = 1; i < n; i++) {
-        for (let j = 0; j < i; j++) {
-            if (nums[i] > nums[j]) {
-                dp[i] = Math.max(dp[i], dp[j] + 1);
+    for (let num of nums) {
+        let left = 0, right = sub.length;
+        
+        while (left < right) {
+            let mid = Math.floor((left + right) / 2);
+            if (sub[mid] < num) {
+                left = mid + 1;
+            } else {
+                right = mid;
             }
+        }
+        
+        if (left >= sub.length) {
+            sub.push(num);
+        } else {
+            sub[left] = num;
         }
     }
     
-    return Math.max(...dp);
+    return sub.length;
 };
