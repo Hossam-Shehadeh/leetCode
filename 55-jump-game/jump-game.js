@@ -1,14 +1,15 @@
-/**
- * @param {number[]} nums
- * @return {boolean}
- */
 var canJump = function(nums) {
-    let targetIndex = nums.length-1;
+    let n = nums.length;
+    let dp = new Array(n).fill(false);
+    dp[0] = true;
 
-    for(let i = nums.length-2 ;i>=0 ;i--){
-        if(i + nums[i] >= targetIndex ){
-            targetIndex =i;
+    for (let i = 0; i < n; i++) {
+        if (dp[i]) {
+            for (let j = i + 1; j <= i + nums[i] && j < n; j++) {
+                dp[j] = true;
+            }
         }
     }
-    return targetIndex==0;
+
+    return dp[n - 1];
 };
